@@ -1,0 +1,149 @@
+<div class="container mt-4">
+    <div class="row">
+      <div class="col-12">
+        <h2>Product List</h2>
+  
+        
+
+        <div class="input-group mb-3">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search for products"
+            [(ngModel)]="searchTerm"
+            (ngModelChange)="onSearch(searchTerm)"
+          />
+        </div>
+  
+        <div *ngIf="currentUserRole === 'admin'" >
+          <button  class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addProductModal" (click)="GetGategories()">
+            Add Product
+          </button>
+        </div>
+  
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th  style="cursor: pointer">
+                Product Name
+              </th>
+              <th  style="cursor: pointer">
+                Price
+              </th>
+              <th  style="cursor: pointer">
+                Quantity
+              </th>
+              <th>Description</th>
+              <th *ngIf="currentUserRole === 'admin'">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of products; let i = index">
+              <td>{{ product.name }}</td>
+              <td>{{ product.price }}</td>
+              <td>{{ product.quantity }}</td>
+              <td>{{ product.description }}</td>
+              <td *ngIf="currentUserRole === 'admin'"><!--*ngIf="currentUserRole === 'admin'"-->
+                <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editproductModal" (click)="edit(product.productId)">Edit</button>&nbsp;
+                <button class="btn btn-danger btn-sm" (click)="deleteProduct(product.productId)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+  
+        <div *ngIf="totalPages > 1">
+          <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
+          <span>Page {{currentPage}} of {{totalPages}}</span>
+          <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+        </div>
+  
+        <div class="modal" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="addProductModalLabel">Add Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="mb-3">
+                    <label for="selectedCategory" class="form-label">Category</label>
+                    <select class="form-select" id="selectedCategory" name="selectedCategory" [(ngModel)]="selectedCategory" required>
+                      <option value="" >Select Category</option>
+                      <option *ngFor="let category of AllCategories" [value]="category.categoryId">
+                        {{ category.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label for="ProductName" class="form-label">Product Name</label>
+                    <input type="text" class="form-control" id="ProductName" name="ProductName" [(ngModel)]="ProductName" required />
+                  </div>
+                  <div class="mb-3">
+                    <label for="Price" class="form-label">Price</label>
+                    <input type="number" class="form-control" id="Price" name="Price"  [(ngModel)]="Price"  required />
+                  </div>
+                  <div class="mb-3">
+                    <label for="Quantity" class="form-label">Quantity</label>
+                    <input type="number" class="form-control" id="Quantity" name="Quantity" [(ngModel)]="Quantity" required />
+                  </div>
+                  <div class="mb-3">
+                    <label for="Description" class="form-label">Description</label>
+                    <textarea class="form-control" id="Description" name="Description" [(ngModel)]="Description"  required></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-primary" (click)="addProduct()" >Add Product</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal" id="editproductModal" tabindex="-1" aria-labelledby="editproductModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="addProductModalLabel">Edit Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="mb-3">
+                    <label for="selectedCategory" class="form-label">Category</label>
+                    <select class="form-select" id="selectedCategory" name="selectedCategory" [(ngModel)]="selectedCategory" required>
+                      <option value="">Select Category</option>
+                      <option *ngFor="let category of AllCategories" [value]="category.categoryId">
+                        {{ category.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label for="ProductName" class="form-label">Product Name</label>
+                    <input type="text" class="form-control" id="ProductName" name="ProductName" [(ngModel)]="ProductName" required />
+                  </div>
+                  <div class="mb-3">
+                    <label for="Price" class="form-label">Price</label>
+                    <input type="number" class="form-control" id="Price" name="Price"  [(ngModel)]="Price"  required />
+                  </div>
+                  <div class="mb-3">
+                    <label for="Quantity" class="form-label">Quantity</label>
+                    <input type="number" class="form-control" id="Quantity" name="Quantity" [(ngModel)]="Quantity" required />
+                  </div>
+                  <div class="mb-3">
+                    <label for="Description" class="form-label">Description</label>
+                    <textarea class="form-control" id="Description" name="Description" [(ngModel)]="Description"  required></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-primary" (click)="editProduct()" >Edit Product</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="loading" class="loader">
+          <p>Loading...</p> 
+          <div class="spinner"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

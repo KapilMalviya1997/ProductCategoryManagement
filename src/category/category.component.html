@@ -1,0 +1,100 @@
+<div class="container mt-4">
+    <div class="row">
+      <div class="col-12">
+        <h2>Category List</h2>
+  
+        <div class="input-group mb-3">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search for products"
+            [(ngModel)]="searchTerm"
+            (ngModelChange)="onSearch(searchTerm)"
+          />
+        </div>
+  
+        <div *ngIf="currentUserRole === 'admin'">
+          <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addCategoryModal" >
+            Add Category
+          </button>
+        </div>
+  
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th  style="cursor: pointer">
+                Category Name
+              </th>
+              
+              <th>Actions</th> <!-- *ngIf="currentUserRole === 'admin'"-->
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let Category of Categories; let i = index">
+              <td>{{ Category.name }}</td>
+              
+              <td *ngIf="currentUserRole === 'admin'"><!--*ngIf="currentUserRole === 'admin'"-->
+                <button class="btn btn-warning btn-sm"  data-bs-toggle="modal" data-bs-target="#editCategoryModal" (click)="edit(Category.categoryId,Category.name)" >Edit</button>&nbsp;
+                <button class="btn btn-danger btn-sm " (click)="deleteCategory(Category.categoryId)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+  
+        
+        <div  class="modal" id="addCategoryModal" tabindex="-1"  aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" >Add Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form>
+                    
+                  <div class=" mb-3">
+                    <label  class="form-label">Category Name</label>
+                    <input  type="text" class="form-control" id="categorynames" name="categorynames" [(ngModel)]="categorynames" />
+                  </div>
+                  <button type="submit" class="btn btn-primary" (click)="addCategory()" >Add Category</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal" id="editCategoryModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Edit Category</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form>
+                    <div class="mb-3">
+                      <label class="form-label">Edit Category Name</label>
+                      <input
+                        type="text" id="editedCategoryName" name="editedCategoryName"
+                        class="form-control"
+                        [(ngModel)]="editedCategoryName"
+                        placeholder="Edit category name"
+                      />
+                    </div>
+                    <button type="button" class="btn btn-primary" (click)="EditCategory()" >Update Category</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="loading" class="loader">
+            <p>Loading...</p> 
+            <div class="spinner"></div>
+          </div>
+
+        
+      </div>
+    </div>
+  </div>
+  
