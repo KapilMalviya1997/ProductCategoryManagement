@@ -29,6 +29,7 @@ export class ProductComponent implements OnInit {
   Description:string='';
   editedProductID :number=0;
   loading:boolean=false;
+  
    
   constructor(private productservice: ProductServiceService ) {}
   
