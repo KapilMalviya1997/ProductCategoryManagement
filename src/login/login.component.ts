@@ -18,7 +18,7 @@ export class LoginComponent {
   // Simulate login function
   onLogin() {
     debugger
-    if (this.username === 'admin' && this.password === 'password') {
+    if (this.username === 'admin' && this.password === '123') {
       alert('Login Successful!');
       this.router.navigate(['/home']);
     } else {

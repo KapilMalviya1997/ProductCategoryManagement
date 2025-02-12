@@ -15,9 +15,12 @@
           />
         </div>
   
-        <div *ngIf="currentUserRole === 'admin'" >
+        <div  >
           <button  class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addProductModal" (click)="GetGategories()">
             Add Product
+          </button>
+          <button  class="btn btn-primary mb-3" style="float: right;" (click)="Home()" >
+            Home
           </button>
         </div>
   
@@ -34,7 +37,7 @@
                 Quantity
               </th>
               <th>Description</th>
-              <th *ngIf="currentUserRole === 'admin'">Actions</th>
+              <th >Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -43,7 +46,7 @@
               <td>{{ product.price }}</td>
               <td>{{ product.quantity }}</td>
               <td>{{ product.description }}</td>
-              <td *ngIf="currentUserRole === 'admin'"><!--*ngIf="currentUserRole === 'admin'"-->
+              <td ><!--*ngIf="currentUserRole === 'admin'"-->
                 <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editproductModal" (click)="edit(product.productId)">Edit</button>&nbsp;
                 <button class="btn btn-danger btn-sm" (click)="deleteProduct(product.productId)">Delete</button>
               </td>

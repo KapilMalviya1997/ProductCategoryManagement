@@ -25,7 +25,7 @@ export class ProductServiceService {
     }
   
     AddProduct(data:any)
-    {debugger
+    {
       return this.http.post(this.apiUrl +'AddProduct', data);
     }
     EditProduct(data:any)
@@ -37,4 +37,5 @@ export class ProductServiceService {
       debugger
       return this.http.delete(this.apiUrl +'DeleteProduct' + '?productId=' + id);
     }
+    
 }

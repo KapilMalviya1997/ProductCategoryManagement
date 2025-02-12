@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ProductServiceService } from '../product-service.service';
 import {  HttpClientModule } from '@angular/common/http';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-product',
   standalone: true,
@@ -17,12 +18,12 @@ export class ProductComponent implements OnInit {
   currentPage: number = 1;
   pageSize: number = 10;
   searchTerm: string = '';
-  currentUserRole: string = 'admin'; 
+  currentUserRole: string = ''; 
   Productnames : string ='';
   editedCategoryName :string ='';
   editedCategoryID :number=0;
   AllCategories:any[]=[];
-  selectedCategory:number=0;
+  selectedCategory:string='';
   Price:number=0;
   Quantity:number=0;
   ProductName:string='';
@@ -31,7 +32,7 @@ export class ProductComponent implements OnInit {
   loading:boolean=false;
   
    
-  constructor(private productservice: ProductServiceService ) {}
+  constructor(private productservice: ProductServiceService ,private router: Router) {}
   
   ngOnInit(): void {
     this.loadProducts();
@@ -40,7 +41,7 @@ export class ProductComponent implements OnInit {
 
   loadProducts():void {
     this.loading = true;
-    if (this.productservice) {
+    debugger
       this.productservice.getProducts(this.currentPage,this.pageSize).subscribe(
         (data) => {
           console.log("a",data);
@@ -48,17 +49,16 @@ export class ProductComponent implements OnInit {
             this.products = data.items;
             this.loading = false;
             this.totalPages=data.totalRecords;
-            console.log("bbb",data);
+            
           } 
+          this.loading = false;
         },
         (error) => {
           console.error('Error fetching products:', error);
         }
-      );
-    } else {
-      console.error('productsService is not defined');
-    }
         
+      );
+      
   }
 
  GetGategories()
@@ -99,8 +99,9 @@ export class ProductComponent implements OnInit {
 
  
   addProduct() {
+    debugger
     this.loading=true;
-    if( this.ProductName != null &&  this.ProductName != undefined && this.Price >0 && this.Quantity >0 && this.selectedCategory != null && this.selectedCategory != undefined)
+    if( this.ProductName != null &&  this.ProductName != undefined && this.Price >0 && this.Quantity >0 && this.selectedCategory != null && this.selectedCategory != undefined && this.selectedCategory !="")
     {
       const addcat:any={
         
@@ -112,6 +113,7 @@ export class ProductComponent implements OnInit {
           "updatedAt": Date,
           "categoryId": this.selectedCategory
       }
+      
         this.productservice.AddProduct(addcat).subscribe(
           (x) => {
             this.loading=false;
@@ -120,6 +122,7 @@ export class ProductComponent implements OnInit {
       );
       alert("Added Successfully.")
       window.location.reload();
+      
     }
     else{
       alert("Please fill all details.");
@@ -176,4 +179,9 @@ export class ProductComponent implements OnInit {
           window.location.reload();
       }
   }
+  Home()
+    {
+      debugger
+      this.router.navigate(['/home']);
+    }
 }

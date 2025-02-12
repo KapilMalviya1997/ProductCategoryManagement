@@ -13,9 +13,12 @@
           />
         </div>
   
-        <div *ngIf="currentUserRole === 'admin'">
+        <div >
           <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addCategoryModal" >
             Add Category
+          </button>
+          <button  class="btn btn-primary mb-3" style="float: right;" (click)="Home()" >
+            Home
           </button>
         </div>
   
@@ -33,7 +36,7 @@
             <tr *ngFor="let Category of Categories; let i = index">
               <td>{{ Category.name }}</td>
               
-              <td *ngIf="currentUserRole === 'admin'"><!--*ngIf="currentUserRole === 'admin'"-->
+              <td ><!--*ngIf="currentUserRole === 'admin'"-->
                 <button class="btn btn-warning btn-sm"  data-bs-toggle="modal" data-bs-target="#editCategoryModal" (click)="edit(Category.categoryId,Category.name)" >Edit</button>&nbsp;
                 <button class="btn btn-danger btn-sm " (click)="deleteCategory(Category.categoryId)">Delete</button>
               </td>

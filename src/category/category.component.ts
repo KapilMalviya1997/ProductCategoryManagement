@@ -3,6 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CategoryServiceService } from '../category-service.service';
 import {  HttpClientModule } from '@angular/common/http';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-category',
   standalone: true,
@@ -18,7 +20,7 @@ export class CategoryComponent implements OnInit {
   editedCategoryName:string='';
   editedCategoryID:number=0;
   loading:boolean=false;
-  constructor(private categoryService: CategoryServiceService) { }
+  constructor(private categoryService: CategoryServiceService,private router: Router) { }
 
   
   ngOnInit(): void {
@@ -128,4 +130,9 @@ this.loadCategories();
           window.location.reload();
       }
   }
+  Home()
+    {
+      debugger
+      this.router.navigate(['/home']);
+    }
 }
